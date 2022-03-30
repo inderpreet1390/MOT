@@ -2,6 +2,13 @@ path=r'path to MOT20 det annotations'
 import os
 import glob
 
+#for MOT20-01 wxh=1920x1080
+#for MOT20-02 wxh=1920x1080
+#for MOT20-03 wxh=1173x880
+#for MOT20-05 wxh=1654x1080
+w = 1173
+h = 880
+
 
 for filename in glob.glob(os.path.join(path, '*.txt')):
     fin=""
@@ -9,14 +16,14 @@ for filename in glob.glob(os.path.join(path, '*.txt')):
     with open(os.path.join(os.getcwd(), filename), 'r') as f:
         print(filename)
         lines=f.readlines()
-        na=words[0]
+        na=1
         for line in lines:
             words=line.split(",")
             words.insert(0,str(words[6])) #class label in 0 to classes-1 format at first index
-            words.insert(1,str(((float(words[3])+float(words[5]))/(2*1920)))) # put value of x of center of object
-            words.insert(2,str(((float(words[5])+float(words[7]))/(2*1080)))) #y value
-            words.insert(3,str(float(words[7])/1920)) #height
-            words.insert(4,str(float(words[9])/1080)) #width
+            words.insert(1,str(((float(words[3])+float(words[5])/2)/(w)))) # put value of x of center of object
+            words.insert(2,str(((float(words[5])+float(words[7])/2)/(h)))) #y value
+            words.insert(3,str(float(words[8])/h)) #height
+            words.insert(4,str(float(words[9])/w)) #width
             
             words.pop()
             words.pop()
@@ -35,7 +42,7 @@ for filename in glob.glob(os.path.join(path, '*.txt')):
                 line2=" ".join(words)
                 lin.append(line2)
             else:
-                fname2=(6-len(str(na)))*'0'+str(na)+'.txt'
+                fname2='3'+(6-len(str(na)))*'0'+str(na)+'.txt'
                 fin="".join(lin)
                 xyz = open(fname2,"w")
                 xyz.write(fin)
