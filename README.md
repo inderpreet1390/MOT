@@ -1,1 +1,1 @@
-# Repository for yolov5+Siamese network MOT algorithm
+# Repository for yolov5 based MOT algorithm
